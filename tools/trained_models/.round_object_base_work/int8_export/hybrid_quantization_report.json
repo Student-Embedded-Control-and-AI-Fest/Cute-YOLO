@@ -1,0 +1,243 @@
+{
+  "architecture": "Cute-YOLO fixed dual-core Hybrid 8+24 | round_object",
+  "architecture_id": "cute_yolo_fixed_dualcore_hybrid_8_24",
+  "label": "round_object",
+  "experiment_tag": "round_object_base_fixed_8_24",
+  "hybrid_width": 32,
+  "hybrid_normal_out": 8,
+  "hybrid_efficient_out": 24,
+  "operator_counts": {
+    "CONV_2D": 14,
+    "DEPTHWISE_CONV_2D": 5,
+    "CONCATENATION": 5,
+    "DELEGATE": 1
+  },
+  "concat_report": [
+    {
+      "concat_number": 1,
+      "op_index": 6,
+      "inputs": [
+        {
+          "tensor_index": 42,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h1_a_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h1_a_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h1_a_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h1_a_conv_1/Squeeze;CuteYOLO_Fixed_8_24_1/h1_a_conv_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h1_a_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h1_a_conv_1/convolution;CuteYOLO_Fixed_8_24_1/h1_a_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            8
+          ],
+          "scale": 0.04154852032661438,
+          "zero_point": -128,
+          "matches_concat_output": true
+        },
+        {
+          "tensor_index": 44,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h1_pw_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h1_pw_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h1_pw_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h1_pw_1/Squeeze;CuteYOLO_Fixed_8_24_1/h1_pw_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h1_pw_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h1_pw_1/convolution;CuteYOLO_Fixed_8_24_1/h1_pw_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            24
+          ],
+          "scale": 0.04154852032661438,
+          "zero_point": -128,
+          "matches_concat_output": true
+        }
+      ],
+      "output": {
+        "tensor_index": 45,
+        "tensor_name": "CuteYOLO_Fixed_8_24_1/h1_concat_1/concat",
+        "shape": [
+          1,
+          16,
+          16,
+          32
+        ],
+        "scale": 0.04154852032661438,
+        "zero_point": -128
+      },
+      "noodle_concat_directly_compatible": true
+    },
+    {
+      "concat_number": 2,
+      "op_index": 10,
+      "inputs": [
+        {
+          "tensor_index": 46,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h2_a_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h2_a_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h2_a_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h2_a_conv_1/Squeeze;CuteYOLO_Fixed_8_24_1/h2_a_conv_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h2_a_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h2_a_conv_1/convolution;CuteYOLO_Fixed_8_24_1/h2_a_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            8
+          ],
+          "scale": 0.04217907786369324,
+          "zero_point": -128,
+          "matches_concat_output": true
+        },
+        {
+          "tensor_index": 48,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h2_pw_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h2_pw_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h2_pw_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h2_pw_1/Squeeze;CuteYOLO_Fixed_8_24_1/h2_pw_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h2_pw_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h2_pw_1/convolution;CuteYOLO_Fixed_8_24_1/h2_pw_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            24
+          ],
+          "scale": 0.04217907786369324,
+          "zero_point": -128,
+          "matches_concat_output": true
+        }
+      ],
+      "output": {
+        "tensor_index": 49,
+        "tensor_name": "CuteYOLO_Fixed_8_24_1/h2_concat_1/concat",
+        "shape": [
+          1,
+          16,
+          16,
+          32
+        ],
+        "scale": 0.04217907786369324,
+        "zero_point": -128
+      },
+      "noodle_concat_directly_compatible": true
+    },
+    {
+      "concat_number": 3,
+      "op_index": 14,
+      "inputs": [
+        {
+          "tensor_index": 50,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h3_a_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h3_a_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h3_a_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h3_a_conv_1/Squeeze;CuteYOLO_Fixed_8_24_1/h3_a_conv_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h3_a_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h3_a_conv_1/convolution;CuteYOLO_Fixed_8_24_1/h3_a_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            8
+          ],
+          "scale": 0.059750162065029144,
+          "zero_point": -128,
+          "matches_concat_output": true
+        },
+        {
+          "tensor_index": 52,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h3_pw_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h3_pw_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h3_pw_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h3_pw_1/Squeeze;CuteYOLO_Fixed_8_24_1/h3_pw_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h3_pw_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h3_pw_1/convolution;CuteYOLO_Fixed_8_24_1/h3_pw_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            24
+          ],
+          "scale": 0.059750162065029144,
+          "zero_point": -128,
+          "matches_concat_output": true
+        }
+      ],
+      "output": {
+        "tensor_index": 53,
+        "tensor_name": "CuteYOLO_Fixed_8_24_1/h3_concat_1/concat",
+        "shape": [
+          1,
+          16,
+          16,
+          32
+        ],
+        "scale": 0.059750162065029144,
+        "zero_point": -128
+      },
+      "noodle_concat_directly_compatible": true
+    },
+    {
+      "concat_number": 4,
+      "op_index": 18,
+      "inputs": [
+        {
+          "tensor_index": 54,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h4_a_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h4_a_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h4_a_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h4_a_conv_1/Squeeze;CuteYOLO_Fixed_8_24_1/h4_a_conv_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h4_a_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h4_a_conv_1/convolution;CuteYOLO_Fixed_8_24_1/h4_a_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            8
+          ],
+          "scale": 0.04318626970052719,
+          "zero_point": -128,
+          "matches_concat_output": true
+        },
+        {
+          "tensor_index": 56,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h4_pw_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h4_pw_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h4_pw_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h4_pw_1/Squeeze;CuteYOLO_Fixed_8_24_1/h4_pw_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h4_pw_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h4_pw_1/convolution;CuteYOLO_Fixed_8_24_1/h4_pw_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            24
+          ],
+          "scale": 0.04318626970052719,
+          "zero_point": -128,
+          "matches_concat_output": true
+        }
+      ],
+      "output": {
+        "tensor_index": 57,
+        "tensor_name": "CuteYOLO_Fixed_8_24_1/h4_concat_1/concat",
+        "shape": [
+          1,
+          16,
+          16,
+          32
+        ],
+        "scale": 0.04318626970052719,
+        "zero_point": -128
+      },
+      "noodle_concat_directly_compatible": true
+    },
+    {
+      "concat_number": 5,
+      "op_index": 22,
+      "inputs": [
+        {
+          "tensor_index": 58,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h5_a_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h5_a_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h5_a_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h5_a_conv_1/Squeeze;CuteYOLO_Fixed_8_24_1/h5_a_conv_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h5_a_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h5_a_conv_1/convolution;CuteYOLO_Fixed_8_24_1/h5_a_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            8
+          ],
+          "scale": 0.030200287699699402,
+          "zero_point": -128,
+          "matches_concat_output": true
+        },
+        {
+          "tensor_index": 60,
+          "tensor_name": "CuteYOLO_Fixed_8_24_1/h5_pw_relu_1/Relu;CuteYOLO_Fixed_8_24_1/h5_pw_bn_1/batchnorm/add_1;CuteYOLO_Fixed_8_24_1/h5_pw_bn_1/batchnorm/mul_1;CuteYOLO_Fixed_8_24_1/h5_pw_1/Squeeze;CuteYOLO_Fixed_8_24_1/h5_pw_1/BiasAdd;CuteYOLO_Fixed_8_24_1/h5_pw_bn_1/batchnorm/mul;CuteYOLO_Fixed_8_24_1/h5_pw_1/convolution;CuteYOLO_Fixed_8_24_1/h5_pw_bn_1/batchnorm/sub1",
+          "shape": [
+            1,
+            16,
+            16,
+            24
+          ],
+          "scale": 0.030200287699699402,
+          "zero_point": -128,
+          "matches_concat_output": true
+        }
+      ],
+      "output": {
+        "tensor_index": 61,
+        "tensor_name": "CuteYOLO_Fixed_8_24_1/h5_concat_1/concat",
+        "shape": [
+          1,
+          16,
+          16,
+          32
+        ],
+        "scale": 0.030200287699699402,
+        "zero_point": -128
+      },
+      "noodle_concat_directly_compatible": true
+    }
+  ],
+  "all_concat_directly_noodle_compatible": true
+}

@@ -1,0 +1,6 @@
+{
+  "validation_images": 16,
+  "mean_absolute_output_logit_difference": 0.06233259290456772,
+  "saturation_minus_128": 0,
+  "saturation_plus_127": 0
+}

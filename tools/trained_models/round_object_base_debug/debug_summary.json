@@ -1,0 +1,43 @@
+{
+  "architecture_id": "cute_yolo_fixed_dualcore_hybrid_8_24",
+  "box_overlap_loss": "ciou",
+  "box_coordinate_loss": "mse_dx_dy_w_h",
+  "objectness_training": {
+    "background_loss_weight": 1.5,
+    "hard_negatives_per_image": 32,
+    "box_aware_negative_enabled": true,
+    "box_footprint_negative_weight": 0.5,
+    "box_halo_negative_weight": 0.25,
+    "box_halo_kernel": 3,
+    "crowd_aware_negative_enabled": true,
+    "crowd_count_gamma": 0.5,
+    "crowd_count_cap": 4.0,
+    "box_aware_negative_definition": "GT-box/grid-cell footprint plus per-object one-cell halo; spatial BCE is weighted by the number of GT objects influencing each negative cell; all true positive center cells are excluded"
+  },
+  "evaluation_max_detections": 128,
+  "runtime_max_detections": 32,
+  "label": "round_object",
+  "best_validation_loss": 1.3279443308711052,
+  "best_operating_point": {
+    "confidence_threshold": 0.5,
+    "nms_iou_threshold": 0.25,
+    "precision": 0.8994682824285891,
+    "recall": 0.8574796652127785,
+    "f1": 0.8779722389861194,
+    "mean_iou": 0.7940234922160061
+  },
+  "debug_files": [
+    "dataset_distribution.png",
+    "operating_point_f1.png",
+    "training_dataset_preview.png",
+    "training_learning_rate.png",
+    "training_loss.png",
+    "training_loss_components.png",
+    "validation_dataset_preview.png",
+    "validation_predictions.png"
+  ],
+  "visual_conventions": {
+    "dataset_preview": "solid rectangles are encoded ground-truth boxes",
+    "validation_predictions": "solid rectangles are ground truth; dashed rectangles are model detections"
+  }
+}

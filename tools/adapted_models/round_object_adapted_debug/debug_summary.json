@@ -1,0 +1,76 @@
+{
+  "architecture_id": "cute_yolo_fixed_dualcore_hybrid_8_24",
+  "box_overlap_loss": "ciou",
+  "box_coordinate_loss": "mse_dx_dy_w_h",
+  "objectness_training": {
+    "background_loss_weight": 1.5,
+    "hard_negatives_per_image": 32,
+    "box_aware_negative_enabled": true,
+    "box_footprint_negative_weight": 0.5,
+    "box_halo_negative_weight": 0.25,
+    "box_halo_kernel": 3,
+    "crowd_aware_negative_enabled": true,
+    "crowd_count_gamma": 0.5,
+    "crowd_count_cap": 4.0,
+    "box_aware_negative_definition": "GT-box/grid-cell footprint plus per-object one-cell halo; spatial BCE is weighted by the number of GT objects influencing each negative cell; all true positive center cells are excluded"
+  },
+  "evaluation_max_detections": 128,
+  "runtime_max_detections": 32,
+  "label": "round_object",
+  "domain_adaptation": true,
+  "specialized_finetune": true,
+  "specialized_cross_loss_weight": 0.25,
+  "specialized_branch_a_objective": "localization + alpha*objectness",
+  "specialized_branch_b_objective": "objectness + alpha*localization",
+  "frozen_during_specialized_adaptation": [
+    "stem1",
+    "stem2",
+    "stem3",
+    "head"
+  ],
+  "baseline_validation_loss": 2.5389814376831055,
+  "adapted_validation_loss": 1.8253430128097534,
+  "comparison": {
+    "baseline": {
+      "validation_loss": 2.5389814376831055,
+      "operating_point": {
+        "confidence_threshold": 0.85,
+        "nms_iou_threshold": 0.45,
+        "precision": 0.6739130434782609,
+        "recall": 0.6775956284153005,
+        "f1": 0.6757493188010899,
+        "mean_iou": 0.7032014017140655
+      }
+    },
+    "adapted": {
+      "validation_loss": 1.8253430128097534,
+      "operating_point": {
+        "confidence_threshold": 0.7,
+        "nms_iou_threshold": 0.45,
+        "precision": 0.8352941176470589,
+        "recall": 0.7759562841530054,
+        "f1": 0.8045325779036827,
+        "mean_iou": 0.7296515464566845
+      }
+    },
+    "f1_change": 0.1287832591025928,
+    "mean_iou_change": 0.026450144742618975
+  },
+  "debug_files": [
+    "adaptation_learning_rate.png",
+    "adaptation_loss.png",
+    "adaptation_loss_components.png",
+    "after_adaptation_predictions.png",
+    "before_adaptation_predictions.png",
+    "operating_point_after.png",
+    "operating_point_before.png",
+    "real_dataset_distribution.png",
+    "real_training_dataset_preview.png",
+    "real_validation_dataset_preview.png",
+    "source_dataset_preview.png"
+  ],
+  "visual_conventions": {
+    "dataset_preview": "solid rectangles are encoded ground-truth boxes",
+    "before_after_predictions": "solid rectangles are ground truth; dashed rectangles are model detections; before and after figures use identical validation sample indices"
+  }
+}

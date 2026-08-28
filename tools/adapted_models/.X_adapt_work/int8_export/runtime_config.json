@@ -1,0 +1,9 @@
+{
+  "architecture_id": "cute_yolo_fixed_dualcore_hybrid_8_24",
+  "label": "X",
+  "confidence_threshold": 0.6,
+  "nms_iou_threshold": 0.25,
+  "min_box_w": 0.05,
+  "min_box_h": 0.05,
+  "max_detections": 32
+}

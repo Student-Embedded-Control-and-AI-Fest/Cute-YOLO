@@ -1,0 +1,38 @@
+{
+  "architecture_id": "cute_yolo_fixed_dualcore_hybrid_8_24",
+  "task": "single_class_detection",
+  "domain_adaptation": false,
+  "source_ratio": 1.0,
+  "target_ratio": 0.0,
+  "input": [
+    1,
+    128,
+    128
+  ],
+  "output_nhwc": [
+    16,
+    16,
+    5
+  ],
+  "output_firmware_chw": [
+    5,
+    16,
+    16
+  ],
+  "hybrid_normal_out": 8,
+  "hybrid_efficient_out": 24,
+  "hybrid_blocks": 5,
+  "trainable_parameter_count": 23925,
+  "conv_macs": 6995968,
+  "label": "round_object",
+  "confidence_threshold": 0.5,
+  "nms_iou_threshold": 0.25,
+  "max_detections": 32,
+  "min_box_w": 0.05,
+  "min_box_h": 0.05,
+  "input_scale": 0.003921568859368563,
+  "input_zero_point": -128,
+  "output_scale": 0.09912601858377457,
+  "output_zero_point": 9,
+  "concat_directly_noodle_compatible": true
+}
