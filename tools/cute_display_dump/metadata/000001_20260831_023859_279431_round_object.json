@@ -1,0 +1,50 @@
+{
+  "frame_id": 1,
+  "label": "round_object",
+  "inference_us": 840112,
+  "inference_ms": 840.112,
+  "display_width": 160,
+  "display_height": 128,
+  "display_encoding": "RGB565LE",
+  "expected_detection_count": 5,
+  "received_detection_count": 5,
+  "boxes": [
+    {
+      "confidence": 0.999649,
+      "x1": 0.08047,
+      "y1": 0.444794,
+      "x2": 0.27901,
+      "y2": 0.622059
+    },
+    {
+      "confidence": 0.999536,
+      "x1": 0.359,
+      "y1": 0.638619,
+      "x2": 0.55754,
+      "y2": 0.815884
+    },
+    {
+      "confidence": 0.999295,
+      "x1": 0.630401,
+      "y1": 0.373742,
+      "x2": 0.852081,
+      "y2": 0.595422
+    },
+    {
+      "confidence": 0.99249,
+      "x1": 0.418147,
+      "y1": 0.407421,
+      "x2": 0.514999,
+      "y2": 0.517184
+    },
+    {
+      "confidence": 0.966074,
+      "x1": 0.368453,
+      "y1": 0.160011,
+      "x2": 0.526274,
+      "y2": 0.317831
+    }
+  ],
+  "display_png": "cute_display_dump/display/000001_20260831_023859_279431_round_object.png",
+  "pc_redraw": false
+}

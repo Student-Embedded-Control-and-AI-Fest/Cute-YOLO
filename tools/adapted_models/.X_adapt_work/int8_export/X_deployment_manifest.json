@@ -25,14 +25,14 @@
   "trainable_parameter_count": 23925,
   "conv_macs": 6995968,
   "label": "X",
-  "confidence_threshold": 0.6,
+  "confidence_threshold": 0.5,
   "nms_iou_threshold": 0.25,
   "max_detections": 32,
   "min_box_w": 0.05,
   "min_box_h": 0.05,
   "input_scale": 0.003921568859368563,
   "input_zero_point": -128,
-  "output_scale": 0.06022515520453453,
-  "output_zero_point": 6,
+  "output_scale": 0.06986687332391739,
+  "output_zero_point": 14,
   "concat_directly_noodle_compatible": true
 }

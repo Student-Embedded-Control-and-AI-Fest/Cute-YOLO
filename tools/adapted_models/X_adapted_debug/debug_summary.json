@@ -5506,7 +5506,7 @@
     ]
   },
   "real_dataset_stats": {
-    "dataset_zip": "/home/auralius/machine-learning/Cute-YOLO/domain_adaptation_dataset/esp32_face_labeled.zip",
+    "dataset_zip": "/home/auralius/machine-learning/Cute-YOLO/dataset_examples/face/esp32_face_labeled.zip",
     "class_name": "X",
     "class_name_source": "fallback_X_if_classes_txt_missing",
     "geometry_policy": "center_square_crop_then_resize_128",
@@ -5534,33 +5534,33 @@
       ]
     ]
   },
-  "baseline_validation_loss": 1.8461382389068604,
-  "adapted_validation_loss": 1.6857004165649414,
+  "baseline_validation_loss": 1.7169783115386963,
+  "adapted_validation_loss": 1.5685348510742188,
   "comparison": {
     "baseline": {
-      "validation_loss": 1.8461382389068604,
-      "operating_point": {
-        "confidence_threshold": 0.6,
-        "nms_iou_threshold": 0.25,
-        "precision": 0.7297297297297297,
-        "recall": 0.7714285714285715,
-        "f1": 0.75,
-        "mean_iou": 0.6909876774153269
-      }
-    },
-    "adapted": {
-      "validation_loss": 1.6857004165649414,
+      "validation_loss": 1.7169783115386963,
       "operating_point": {
         "confidence_threshold": 0.65,
         "nms_iou_threshold": 0.25,
-        "precision": 0.8064516129032258,
-        "recall": 0.7142857142857143,
-        "f1": 0.7575757575757576,
-        "mean_iou": 0.7184126495166226
+        "precision": 0.8125,
+        "recall": 0.7428571428571429,
+        "f1": 0.7761194029850748,
+        "mean_iou": 0.6989350404257599
       }
     },
-    "f1_change": 0.007575757575757569,
-    "mean_iou_change": 0.027424972101295797
+    "adapted": {
+      "validation_loss": 1.5685348510742188,
+      "operating_point": {
+        "confidence_threshold": 0.45,
+        "nms_iou_threshold": 0.25,
+        "precision": 0.7631578947368421,
+        "recall": 0.8285714285714286,
+        "f1": 0.7945205479452055,
+        "mean_iou": 0.7227982889214599
+      }
+    },
+    "f1_change": 0.01840114496013079,
+    "mean_iou_change": 0.023863248495699985
   },
   "debug_files": [
     "adaptation_learning_rate.png",
@@ -5583,41 +5583,41 @@
     "before_after_predictions": "solid rectangles are ground truth; dashed rectangles are model detections; before and after figures use identical validation sample indices"
   },
   "adapted_fp32_operating_point": {
-    "confidence_threshold": 0.65,
+    "confidence_threshold": 0.45,
     "nms_iou_threshold": 0.25,
-    "precision": 0.8064516129032258,
-    "recall": 0.7142857142857143,
-    "f1": 0.7575757575757576,
-    "mean_iou": 0.7184126495166226
+    "precision": 0.7631578947368421,
+    "recall": 0.8285714285714286,
+    "f1": 0.7945205479452055,
+    "mean_iou": 0.7227982889214599
   },
   "adapted_int8_operating_point": {
-    "confidence_threshold": 0.6,
+    "confidence_threshold": 0.5,
     "nms_iou_threshold": 0.25,
-    "precision": 0.7941176470588235,
-    "recall": 0.7714285714285715,
-    "f1": 0.782608695652174,
-    "mean_iou": 0.7162614514705149
+    "precision": 0.7837837837837838,
+    "recall": 0.8285714285714286,
+    "f1": 0.8055555555555555,
+    "mean_iou": 0.7307213321534911
   },
   "deployment_operating_point": {
-    "confidence_threshold": 0.6,
+    "confidence_threshold": 0.5,
     "nms_iou_threshold": 0.25,
-    "precision": 0.7941176470588235,
-    "recall": 0.7714285714285715,
-    "f1": 0.782608695652174,
-    "mean_iou": 0.7162614514705149
+    "precision": 0.7837837837837838,
+    "recall": 0.8285714285714286,
+    "f1": 0.8055555555555555,
+    "mean_iou": 0.7307213321534911
   },
   "int8_validation": {
     "validation_images": 10,
-    "mean_absolute_output_logit_difference": 0.0462599404156208,
+    "mean_absolute_output_logit_difference": 0.05681403577327728,
     "saturation_minus_128": 0,
     "saturation_plus_127": 0,
     "operating_point": {
-      "confidence_threshold": 0.6,
+      "confidence_threshold": 0.5,
       "nms_iou_threshold": 0.25,
-      "precision": 0.7941176470588235,
-      "recall": 0.7714285714285715,
-      "f1": 0.782608695652174,
-      "mean_iou": 0.7162614514705149
+      "precision": 0.7837837837837838,
+      "recall": 0.8285714285714286,
+      "f1": 0.8055555555555555,
+      "mean_iou": 0.7307213321534911
     },
     "confidence_grid": [
       0.1,

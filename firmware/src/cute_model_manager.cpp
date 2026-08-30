@@ -5,6 +5,7 @@
 #include <NimBLEDevice.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <string>
 
 namespace
@@ -12,6 +13,10 @@ namespace
 
   static constexpr const char *PART_A_LABEL = "cuteA";
   static constexpr const char *PART_B_LABEL = "cuteB";
+
+  // Must match the current fixed firmware/runtime capacity.
+  // Older .cute packages with smaller values remain valid.
+  static constexpr uint8_t CUTE_MODEL_RUNTIME_MAX_DETECTIONS = 32;
 
   static constexpr const char *SERVICE_UUID =
       "7f1d0001-9f3b-4c2b-8f3e-5b51c0de0001";
@@ -119,89 +124,215 @@ namespace
     return true;
   }
 
-  static bool validate_model_partition(const esp_partition_t *part,
-                                       CuteModelHeader *out_header = nullptr)
+  static bool validation_fail(char *reason,
+                              size_t reason_size,
+                              const char *fmt,
+                              ...)
   {
-    if (!part || part->size < CUTE_MODEL_HEADER_BYTES)
-      return false;
+    if (reason && reason_size > 0)
+    {
+      va_list args;
+      va_start(args, fmt);
+      vsnprintf(reason, reason_size, fmt, args);
+      va_end(args);
+    }
+    return false;
+  }
+
+  static bool validate_model_partition(const esp_partition_t *part,
+                                       CuteModelHeader *out_header = nullptr,
+                                       char *reason = nullptr,
+                                       size_t reason_size = 0)
+  {
+    if (!part)
+      return validation_fail(reason, reason_size, "partition=null");
+
+    if (part->size < CUTE_MODEL_HEADER_BYTES)
+      return validation_fail(reason, reason_size,
+                             "partition too small: %u",
+                             (unsigned)part->size);
 
     CuteModelHeader header = {};
-    if (esp_partition_read(part, 0, &header, sizeof(header)) != ESP_OK)
-    {
-      return false;
-    }
+    const esp_err_t read_header_err =
+        esp_partition_read(part, 0, &header, sizeof(header));
+
+    if (read_header_err != ESP_OK)
+      return validation_fail(reason, reason_size,
+                             "header read err=%d",
+                             (int)read_header_err);
 
     if (memcmp(header.magic, "CUTE", 4) != 0)
-      return false;
-    if (header.version != CUTE_MODEL_FORMAT_VERSION ||
-        header.header_bytes != CUTE_MODEL_HEADER_BYTES ||
-        header.architecture_id != CUTE_MODEL_ARCH_ID ||
-        header.layer_count != CUTE_MODEL_LAYER_COUNT)
-    {
-      return false;
-    }
+      return validation_fail(reason, reason_size,
+                             "magic %.4s",
+                             header.magic);
+
+    if (header.version != CUTE_MODEL_FORMAT_VERSION)
+      return validation_fail(reason, reason_size,
+                             "version %u != %u",
+                             (unsigned)header.version,
+                             (unsigned)CUTE_MODEL_FORMAT_VERSION);
+
+    if (header.header_bytes != CUTE_MODEL_HEADER_BYTES)
+      return validation_fail(reason, reason_size,
+                             "header_bytes %u != %u",
+                             (unsigned)header.header_bytes,
+                             (unsigned)CUTE_MODEL_HEADER_BYTES);
+
+    if (header.architecture_id != CUTE_MODEL_ARCH_ID)
+      return validation_fail(reason, reason_size,
+                             "arch %08lX != %08lX",
+                             (unsigned long)header.architecture_id,
+                             (unsigned long)CUTE_MODEL_ARCH_ID);
+
+    if (header.layer_count != CUTE_MODEL_LAYER_COUNT)
+      return validation_fail(reason, reason_size,
+                             "layers %u != %u",
+                             (unsigned)header.layer_count,
+                             (unsigned)CUTE_MODEL_LAYER_COUNT);
+
     if (header.total_bytes < CUTE_MODEL_HEADER_BYTES ||
         header.total_bytes > part->size)
-    {
-      return false;
-    }
+      return validation_fail(reason, reason_size,
+                             "total_bytes %lu invalid",
+                             (unsigned long)header.total_bytes);
 
     const uint32_t expected_header_crc = header.header_crc32;
     header.header_crc32 = 0;
-    const uint32_t actual_header_crc = crc32_memory(
-        reinterpret_cast<const uint8_t *>(&header), sizeof(header));
+
+    const uint32_t actual_header_crc =
+        crc32_memory(
+            reinterpret_cast<const uint8_t *>(&header),
+            sizeof(header));
+
     if (actual_header_crc != expected_header_crc)
-      return false;
+      return validation_fail(reason, reason_size,
+                             "header CRC exp=%08lX got=%08lX",
+                             (unsigned long)expected_header_crc,
+                             (unsigned long)actual_header_crc);
+
     header.header_crc32 = expected_header_crc;
 
-    if (header.max_detections == 0 || header.max_detections > 16 ||
-        !(header.confidence_threshold >= 0.0f && header.confidence_threshold <= 1.0f) ||
-        !(header.nms_iou_threshold >= 0.0f && header.nms_iou_threshold <= 1.0f) ||
-        !(header.min_box_w >= 0.0f && header.min_box_w <= 1.0f) ||
-        !(header.min_box_h >= 0.0f && header.min_box_h <= 1.0f) ||
-        header.label[23] != '\0')
-    {
-      return false;
-    }
+    if (header.max_detections == 0 ||
+        header.max_detections > CUTE_MODEL_RUNTIME_MAX_DETECTIONS)
+      return validation_fail(reason, reason_size,
+                             "max_det %u > %u",
+                             (unsigned)header.max_detections,
+                             (unsigned)CUTE_MODEL_RUNTIME_MAX_DETECTIONS);
+
+    if (!(header.confidence_threshold >= 0.0f &&
+          header.confidence_threshold <= 1.0f))
+      return validation_fail(reason, reason_size,
+                             "confidence %.4f invalid",
+                             (double)header.confidence_threshold);
+
+    if (!(header.nms_iou_threshold >= 0.0f &&
+          header.nms_iou_threshold <= 1.0f))
+      return validation_fail(reason, reason_size,
+                             "nms %.4f invalid",
+                             (double)header.nms_iou_threshold);
+
+    if (!(header.min_box_w >= 0.0f && header.min_box_w <= 1.0f))
+      return validation_fail(reason, reason_size,
+                             "min_box_w %.4f invalid",
+                             (double)header.min_box_w);
+
+    if (!(header.min_box_h >= 0.0f && header.min_box_h <= 1.0f))
+      return validation_fail(reason, reason_size,
+                             "min_box_h %.4f invalid",
+                             (double)header.min_box_h);
+
+    if (header.label[23] != '\0')
+      return validation_fail(reason, reason_size,
+                             "label not terminated");
 
     for (uint16_t i = 0; i < CUTE_MODEL_LAYER_COUNT; ++i)
     {
       const CuteLayerRecord &r = header.layers[i];
-      if (r.weight_count != EXPECTED_WEIGHT_COUNTS[i] ||
-          r.bias_count != EXPECTED_BIAS_COUNTS[i])
-      {
-        return false;
-      }
-      if (!range_ok(r.weight_offset, r.weight_count, header.total_bytes) ||
-          !range_ok(r.bias_offset, r.bias_count * sizeof(int32_t), header.total_bytes) ||
-          !range_ok(r.multiplier_offset, r.bias_count * sizeof(int32_t), header.total_bytes) ||
-          !range_ok(r.shift_offset, r.bias_count * sizeof(int32_t), header.total_bytes))
-      {
-        return false;
-      }
-      if ((r.bias_offset & 3u) || (r.multiplier_offset & 3u) || (r.shift_offset & 3u))
-      {
-        return false;
-      }
-      if (!(r.input_scale > 0.0f) || !(r.output_scale > 0.0f))
-      {
-        return false;
-      }
+
+      if (r.weight_count != EXPECTED_WEIGHT_COUNTS[i])
+        return validation_fail(reason, reason_size,
+                               "L%u weight_count %lu != %lu",
+                               (unsigned)i,
+                               (unsigned long)r.weight_count,
+                               (unsigned long)EXPECTED_WEIGHT_COUNTS[i]);
+
+      if (r.bias_count != EXPECTED_BIAS_COUNTS[i])
+        return validation_fail(reason, reason_size,
+                               "L%u bias_count %lu != %lu",
+                               (unsigned)i,
+                               (unsigned long)r.bias_count,
+                               (unsigned long)EXPECTED_BIAS_COUNTS[i]);
+
+      if (!range_ok(r.weight_offset,
+                    r.weight_count,
+                    header.total_bytes))
+        return validation_fail(reason, reason_size,
+                               "L%u weight range",
+                               (unsigned)i);
+
+      if (!range_ok(r.bias_offset,
+                    r.bias_count * sizeof(int32_t),
+                    header.total_bytes))
+        return validation_fail(reason, reason_size,
+                               "L%u bias range",
+                               (unsigned)i);
+
+      if (!range_ok(r.multiplier_offset,
+                    r.bias_count * sizeof(int32_t),
+                    header.total_bytes))
+        return validation_fail(reason, reason_size,
+                               "L%u multiplier range",
+                               (unsigned)i);
+
+      if (!range_ok(r.shift_offset,
+                    r.bias_count * sizeof(int32_t),
+                    header.total_bytes))
+        return validation_fail(reason, reason_size,
+                               "L%u shift range",
+                               (unsigned)i);
+
+      if ((r.bias_offset & 3u) ||
+          (r.multiplier_offset & 3u) ||
+          (r.shift_offset & 3u))
+        return validation_fail(reason, reason_size,
+                               "L%u alignment",
+                               (unsigned)i);
+
+      if (!(r.input_scale > 0.0f))
+        return validation_fail(reason, reason_size,
+                               "L%u input_scale %.7g",
+                               (unsigned)i,
+                               (double)r.input_scale);
+
+      if (!(r.output_scale > 0.0f))
+        return validation_fail(reason, reason_size,
+                               "L%u output_scale %.7g",
+                               (unsigned)i,
+                               (double)r.output_scale);
     }
 
     uint32_t payload_crc = 0;
-    if (!crc32_partition(part,
-                         CUTE_MODEL_HEADER_BYTES,
-                         header.total_bytes - CUTE_MODEL_HEADER_BYTES,
-                         &payload_crc))
-    {
-      return false;
-    }
+
+    if (!crc32_partition(
+            part,
+            CUTE_MODEL_HEADER_BYTES,
+            header.total_bytes - CUTE_MODEL_HEADER_BYTES,
+            &payload_crc))
+      return validation_fail(reason, reason_size,
+                             "payload read failed");
+
     if (payload_crc != header.payload_crc32)
-      return false;
+      return validation_fail(reason, reason_size,
+                             "payload CRC exp=%08lX got=%08lX",
+                             (unsigned long)header.payload_crc32,
+                             (unsigned long)payload_crc);
 
     if (out_header)
       *out_header = header;
+
+    if (reason && reason_size > 0)
+      snprintf(reason, reason_size, "OK");
+
     return true;
   }
 
@@ -366,10 +497,24 @@ namespace
     }
 
     CuteModelHeader header = {};
+    char validation_reason[80] = {};
     set_status("VERIFY");
-    if (!validate_model_partition(g_upload_part, &header))
+
+    if (!validate_model_partition(
+            g_upload_part,
+            &header,
+            validation_reason,
+            sizeof(validation_reason)))
     {
-      set_status("ERR model CRC/format");
+      char msg[96];
+      snprintf(
+          msg,
+          sizeof(msg),
+          "ERR %s",
+          validation_reason[0]
+              ? validation_reason
+              : "model validation");
+      set_status(msg);
       return;
     }
 
@@ -689,7 +834,9 @@ float cute_model_min_box_h()
 uint8_t cute_model_max_detections()
 {
   const CuteModelHeader *header = cute_model_header();
-  return header ? header->max_detections : 16;
+  return header
+             ? header->max_detections
+             : CUTE_MODEL_RUNTIME_MAX_DETECTIONS;
 }
 
 const char *cute_model_status()

@@ -1,0 +1,14 @@
+{
+  "frame_id": 5,
+  "label": "round_object",
+  "inference_us": 840255,
+  "inference_ms": 840.255,
+  "display_width": 160,
+  "display_height": 128,
+  "display_encoding": "RGB565LE",
+  "expected_detection_count": 0,
+  "received_detection_count": 0,
+  "boxes": [],
+  "display_png": "cute_display_dump/display/000005_20260831_024006_681745_round_object.png",
+  "pc_redraw": false
+}

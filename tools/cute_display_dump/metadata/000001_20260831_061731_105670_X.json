@@ -1,0 +1,22 @@
+{
+  "frame_id": 1,
+  "label": "X",
+  "inference_us": 831734,
+  "inference_ms": 831.734,
+  "display_width": 160,
+  "display_height": 128,
+  "display_encoding": "RGB565LE",
+  "expected_detection_count": 1,
+  "received_detection_count": 1,
+  "boxes": [
+    {
+      "confidence": 0.753593,
+      "x1": 0.399534,
+      "y1": 0.188615,
+      "x2": 0.64594,
+      "y2": 0.505411
+    }
+  ],
+  "display_png": "cute_display_dump/display/000001_20260831_061731_105670_X.png",
+  "pc_redraw": false
+}

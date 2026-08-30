@@ -1,0 +1,29 @@
+{
+  "frame_id": 0,
+  "label": "X",
+  "inference_us": 831613,
+  "inference_ms": 831.613,
+  "display_width": 160,
+  "display_height": 128,
+  "display_encoding": "RGB565LE",
+  "expected_detection_count": 2,
+  "received_detection_count": 2,
+  "boxes": [
+    {
+      "confidence": 0.667893,
+      "x1": 0.395558,
+      "y1": 0.310352,
+      "x2": 0.629222,
+      "y2": 0.627148
+    },
+    {
+      "confidence": 0.569416,
+      "x1": 0.428178,
+      "y1": 0.002496,
+      "x2": 0.537664,
+      "y2": 0.099083
+    }
+  ],
+  "display_png": "cute_display_dump/display/000000_20260831_061711_668570_X.png",
+  "pc_redraw": false
+}

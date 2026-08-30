@@ -5494,14 +5494,14 @@
       ]
     ]
   },
-  "best_validation_loss": 2.0176502466201782,
+  "best_validation_loss": 1.998762886698653,
   "best_operating_point": {
     "confidence_threshold": 0.8,
-    "nms_iou_threshold": 0.45,
-    "precision": 0.5621936274509803,
-    "recall": 0.49527665317139,
-    "f1": 0.5266178791792223,
-    "mean_iou": 0.7264610737990647
+    "nms_iou_threshold": 0.35,
+    "precision": 0.6037478705281091,
+    "recall": 0.47827260458839405,
+    "f1": 0.5337349397590362,
+    "mean_iou": 0.7354985913571129
   },
   "debug_files": [
     "dataset_distribution.png",
@@ -5523,31 +5523,31 @@
   "fp32_operating_point": {
     "confidence_threshold": 0.8,
     "nms_iou_threshold": 0.35,
-    "precision": 0.5691624365482234,
-    "recall": 0.4842105263157895,
-    "f1": 0.5232609012687763,
-    "mean_iou": 0.728618022023565
+    "precision": 0.6132042862080885,
+    "recall": 0.47881241565452093,
+    "f1": 0.5377387086996059,
+    "mean_iou": 0.7361817307052924
   },
   "int8_operating_point": {
     "confidence_threshold": 0.8,
-    "nms_iou_threshold": 0.45,
-    "precision": 0.5621936274509803,
-    "recall": 0.49527665317139,
-    "f1": 0.5266178791792223,
-    "mean_iou": 0.7264610737990647
+    "nms_iou_threshold": 0.35,
+    "precision": 0.6037478705281091,
+    "recall": 0.47827260458839405,
+    "f1": 0.5337349397590362,
+    "mean_iou": 0.7354985913571129
   },
   "int8_validation": {
     "validation_images": 16,
-    "mean_absolute_output_logit_difference": 0.04466284834779799,
+    "mean_absolute_output_logit_difference": 0.045441749738529325,
     "saturation_minus_128": 0,
     "saturation_plus_127": 0,
     "operating_point": {
       "confidence_threshold": 0.8,
-      "nms_iou_threshold": 0.45,
-      "precision": 0.5621936274509803,
-      "recall": 0.49527665317139,
-      "f1": 0.5266178791792223,
-      "mean_iou": 0.7264610737990647
+      "nms_iou_threshold": 0.35,
+      "precision": 0.6037478705281091,
+      "recall": 0.47827260458839405,
+      "f1": 0.5337349397590362,
+      "mean_iou": 0.7354985913571129
     },
     "confidence_grid": [
       0.1,

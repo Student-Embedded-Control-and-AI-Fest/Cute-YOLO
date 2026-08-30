@@ -26,13 +26,13 @@
   "conv_macs": 6995968,
   "label": "X",
   "confidence_threshold": 0.8,
-  "nms_iou_threshold": 0.45,
+  "nms_iou_threshold": 0.35,
   "max_detections": 32,
   "min_box_w": 0.05,
   "min_box_h": 0.05,
   "input_scale": 0.003921568859368563,
   "input_zero_point": -128,
-  "output_scale": 0.06627912074327469,
-  "output_zero_point": 22,
+  "output_scale": 0.06275402754545212,
+  "output_zero_point": 15,
   "concat_directly_noodle_compatible": true
 }
